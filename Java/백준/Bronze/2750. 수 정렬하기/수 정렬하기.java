@@ -1,19 +1,21 @@
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         
-        int n = sc.nextInt();
+        int n = Integer.parseInt(br.readLine());
         int[] arr = new int[n];
         
-        for (int i = 0; i < n; i++) {
-            int a = sc.nextInt();
-            arr[i] = a;
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
         }
         
-        for (int i = 0; i < arr.length-1; i++) {
-            for (int j = 0; j < arr.length-1-i; j++) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - i - 1; j++) {
                 if (arr[j] > arr[j+1]) {
                     int temp = arr[j+1];
                     arr[j+1] = arr[j];
@@ -22,8 +24,10 @@ public class Main {
             }
         }
         
-        for (int i = 0; i < n; i++) {
-            System.out.println(arr[i]);
+        for (int i = 0; i < arr.length; i++) {
+            sb = sb.append(arr[i]).append("\n");
         }
+        
+        System.out.println(sb);
     }
 }
