@@ -1,26 +1,20 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        ArrayList<Integer> list = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
         
-        int n = scanner.nextInt();
-        int[] arr = new int[n];
-        
-        arr[0] = scanner.nextInt();
-        int max = arr[0];
-        int min = arr[0];
-        
-        for (int i = 1; i < n; i++) {
-            arr[i] = scanner.nextInt();
-            if (arr[i] > max) {
-                max = arr[i];
-            }
-            if (arr[i] < min) {
-                min = arr[i];
-            }
+        for (int i = 0; i < n; i++) {
+            list.add(Integer.parseInt(st.nextToken()));
         }
         
-        System.out.print(min + " " + max);
+        Collections.sort(list);
+        sb.append(list.get(0)).append(" ").append(list.get(list.size()-1));
+        System.out.println(sb);
     }
 }
