@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 import java.util.Queue;
 import java.util.ArrayDeque;
 
@@ -9,6 +11,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         Queue<Integer> q = new ArrayDeque<>();
+        StringBuilder sb = new StringBuilder();
         
         for (int i = 1; i <= n; i++) {
             q.offer(i);
@@ -19,6 +22,11 @@ public class Main {
             q.offer(q.poll());
         }
         
-        System.out.println(q.peek());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        sb.append(q.peek());
+        bw.write(sb.toString());
+        
+        bw.flush();
+        bw.close();
     }
 }
