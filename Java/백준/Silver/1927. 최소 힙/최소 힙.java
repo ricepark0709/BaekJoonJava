@@ -6,11 +6,11 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
-        PriorityQueue<Long> q = new PriorityQueue<>();
+        PriorityQueue<Integer> q = new PriorityQueue<>();
 
         int zero = 0;
         for (int i = 0; i < n; i++) {
-            long a = Long.parseLong(br.readLine());
+            int a = Integer.parseInt(br.readLine());
             if (!(a==0)) q.add(a);
             else if (a==0 && !q.isEmpty()) sb.append(q.poll() + "\n");
             else if (a==0 && q.isEmpty()) sb.append(0 + "\n");
