@@ -4,14 +4,14 @@ import java.util.*;
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringBuilder sb = new StringBuilder();
-    static int[] zero = new int[51];
-    static int[] one = new int[50];
+    static int[] zero = new int[42];
+    static int[] one = new int[41];
     
     public static void fillArr() {
-        for (int i = 2; i < 51; i++) {
+        for (int i = 2; i < 42; i++) {
             zero[i] = zero[i-2] + zero[i-1];
         }
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 41; i++) {
             one[i] = zero[i+1];
         }
     }
