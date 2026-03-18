@@ -2,65 +2,48 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringTokenizer st;
+    static StringBuilder sb = new StringBuilder();
+    static boolean t = true;
     
-    public static boolean process(int a, int b, int c) {
-        int first = 0;
-        int second = 0;
-        int third = 0;
-        if (a > b && a > c) {
-            first = a;
-            if (b > c) {
-                second = b;
-                third = c;
-            } else {
-                second = c;
-                third = b;
-            }
-        } else if (b > a && b > c) {
-            first = b;
-            if (a > c) {
-                second = a;
-                third = c;
-            } else {
-                second = c;
-                third = a;
-            }
-        } else {
-            first = c;
-            if (a > b) {
-                second = a;
-                third = b;
-            } else {
-                second = b;
-                third = a;
-            }
-        }
-        
-        if (((second*second) + (third*third)) == first*first) return true;
-        else return false;
+    public static int findMax(int a, int b, int c) {
+        if (a > b && a > c) return a;
+        else if (b > a && b > c) return b;
+        else if (c > a && c > b) return c;
+        else return -1;
     }
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        boolean t = true;
-        
         while (t) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
+            
             if (a == 0 && b == 0 && c == 0) {
                 t = false;
                 break;
             }
-            if (process(a, b, c)) sb.append("right\n");
-            else sb.append("wrong\n");
+            int max = findMax(a, b, c);
+            if (max == -1) {
+                t = false;
+                break;
+            }
+            
+            if (max == a) {
+                if (b*b + c*c == a*a) sb.append("right\n");
+                else sb.append("wrong\n");
+            } else if (max == b) {
+                if (a*a + c*c == b*b) sb.append("right\n");
+                else sb.append("wrong\n");
+            } else {
+                if (a*a + b*b == c*c) sb.append("right\n");
+                else sb.append("wrong\n");
+            }
         }
-        
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         bw.write(sb.toString());
-        
         bw.flush();
         bw.close();
     }
