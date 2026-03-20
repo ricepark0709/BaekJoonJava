@@ -1,22 +1,27 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        
-        int n = sc.nextInt();
-        int line = 0;
-        int i = 0;
-        
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int result = 1;
+
+    public static void main(String[] args) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+
+        int num = n-1;
+        int line = 1;
+        int combo = 2;
+
         while (true) {
-            if ((n - 1) <= (line * 6)) {
-                break;
-            } else {
-                i++;
-                line += i;
+            if (num <= line * 6) break;
+            else {
+                line += combo;
+                result++;
             }
+            combo++;
         }
-        int result = i + 1;
-        System.out.println(result);
+
+        if (n == 1) System.out.println(1);
+        else System.out.println(combo);
     }
 }
