@@ -2,36 +2,38 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static Set<String> h = new HashSet<>();
+    static StringBuilder sb = new StringBuilder();
+    static String[] arr;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
-        
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            String str = br.readLine();
-            if (!list.contains(str)) {
-                list.add(str);
-            }
+        for (int i = 0; i < n; i++) h.add(br.readLine());
+        arr = new String[h.size()];
+
+        int a = 0;
+        for (String str : h) {
+            arr[a] = str;
+            a++;
         }
+
+        Arrays.sort(arr);
         
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                if (s1.length() != s2.length()) {
-                    return s1.length() - s2.length();
+        for (int i = 0; i < h.size()-1; i++) {
+            for (int j = i+1; j < h.size(); j++) {
+                if (arr[i].length() > arr[j].length() || (arr[i].length() == arr[j].length() && arr[i].compareTo(arr[j]) > 0)) {
+                    String temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
                 }
-                return s1.compareTo(s2);
             }
-        });
-        
-        for (String str : list) {
-            sb.append(str + "\n");
         }
-        
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        for (String str : arr) sb.append(str).append("\n");
+
         bw.write(sb.toString());
-        
         bw.flush();
         bw.close();
     }
