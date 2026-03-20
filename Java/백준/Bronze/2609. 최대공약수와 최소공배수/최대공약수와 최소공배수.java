@@ -2,28 +2,33 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+    static int yaksu, baesu;
+    static boolean yesYaksu = false;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        st = new StringTokenizer(br.readLine());
         int a = Integer.parseInt(st.nextToken());
         int b = Integer.parseInt(st.nextToken());
 
-        int div = 0;
-        int mul = 0;
-        for (int i = 1; i <= 10000; i++) {
-            if ((a%i==0) && (b%i==0)) {
-                div = i;
+        for (int i = 2; i <= Math.max(a, b); i++) {
+            if (a%i==0 && b%i==0) {
+                yaksu = i;
+                yesYaksu = true;
             }
         }
 
-        mul = (a*b)/div;
-        
-        sb.append(div + "\n" + mul);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        bw.write(sb.toString());
+        if (!yesYaksu) yaksu = 1;
 
-        bw.flush();
-        bw.close();
+        for (int i = 1; i <= 100000000; i++) {
+            if (i%a==0 && i%b==0) {
+                baesu = i;
+                break;
+            }
+        }
+
+        System.out.println(yaksu);
+        System.out.println(baesu);
     }
 }
