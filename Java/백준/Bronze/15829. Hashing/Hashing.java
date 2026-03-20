@@ -3,9 +3,19 @@ import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static double sum;
-    static double to;
+    static long sum;
     static char[] arr;
+
+    public static long math(int a) {
+        long sum = 1L;
+        for (int i = 1; i <= a; i++) {
+            sum *= 31;
+            sum %= 1234567891;
+        }
+
+        if (a==0) return 1;
+        else return sum;
+    }
 
     public static void main(String[] args) throws IOException {
         int n = Integer.parseInt(br.readLine());
@@ -17,10 +27,9 @@ public class Main {
         }
 
         for (int i = 0; i < n; i++) {
-            to = Math.pow(31, i) % 1234567891;
-            sum += (arr[i] - '`') % 1234567891 * to;
+            sum += (arr[i] - '`') % 1234567891 * math(i);
         }
 
-        System.out.println((int)sum);
+        System.out.println(sum);
     }
 }
