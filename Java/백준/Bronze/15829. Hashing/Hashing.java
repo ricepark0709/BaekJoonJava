@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static long sum;
+    static double sum;
     static double to;
     static char[] arr;
 
@@ -17,10 +17,10 @@ public class Main {
         }
 
         for (int i = 0; i < n; i++) {
-            to = Math.pow(31, i);
-            sum += (arr[i] - '`') * to;
+            to = Math.pow(31, i) % 1234567891;
+            sum += (arr[i] - '`') % 1234567891 * to;
         }
 
-        System.out.println(sum);
+        System.out.println((int)sum);
     }
 }
