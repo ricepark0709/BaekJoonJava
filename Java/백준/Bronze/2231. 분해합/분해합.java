@@ -1,34 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int n, result, sum;
+    static boolean b = false;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        int n = Integer.parseInt(br.readLine());
-        boolean b = true;
-        
-        int num = 0;
-        while (b) {
-            String str = String.valueOf(num);
-            int sum = 0;
-            for (int i = 0; i < str.length(); i++) {
-                sum += str.charAt(i) - '0';
+        n = Integer.parseInt(br.readLine());
+
+        for (int i = 1; i <= 1000000; i++) {
+            String strI = Integer.toString(i);
+
+            int j = 0;
+            sum = 0;
+            while (j < strI.length()) {
+                sum += strI.charAt(j) - '0';
+                j++;
             }
             
-            if (n == num + sum) {
-                b = false;
-                System.out.println(num);
-            } else {
-                num++;
-            }
-            
-            if (num >= n) {
-                b = false;
-                System.out.println(0);
+            if ((sum + i) == n) {
+                b = true;
+                result = i;
+                break;
             }
         }
-        
+
+        if (b) System.out.println(result);
+        else System.out.println(0);
     }
 }
