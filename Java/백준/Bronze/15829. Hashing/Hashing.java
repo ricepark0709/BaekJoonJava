@@ -1,35 +1,20 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static long sum;
-    static char[] arr;
-
-    public static long math(int a) {
-        long sum = 1L;
-        for (int i = 1; i <= a; i++) {
-            sum *= 31;
-            sum %= 1234567891;
-        }
-
-        if (a==0) return 1;
-        else return sum;
-    }
-
     public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         int n = Integer.parseInt(br.readLine());
         String str = br.readLine();
-
-        arr = new char[n];
+        
+        long sum = 0L;
+        long T = 1L;
+        
         for (int i = 0; i < n; i++) {
-            arr[i] = str.charAt(i);
+            sum += ((str.charAt(i) - '`') * T) % 1234567891;
+            T = (T * 31) % 1234567891;
         }
-
-        for (int i = 0; i < n; i++) {
-            sum += (arr[i] - '`') % 1234567891 * math(i);
-        }
-
-        System.out.println(sum);
+        
+        System.out.println(sum%1234567891);
     }
 }
