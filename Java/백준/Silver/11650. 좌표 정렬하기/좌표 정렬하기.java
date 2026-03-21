@@ -1,38 +1,42 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        int N = Integer.parseInt(br.readLine());
-        int[][] arr = new int[N][2];
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringBuilder sb = new StringBuilder();
 
-        // 1. 입력 받기 (StringTokenizer 활용)
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken()); // x
-            arr[i][1] = Integer.parseInt(st.nextToken()); // y
+    static class location {
+        int x;
+        int y;
+        location(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        int n = Integer.parseInt(br.readLine());
+        location[] l = new location[n];
+
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            l[i] = new location(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
 
-        // 2. 정렬하기 (람다식 사용)
-        Arrays.sort(arr, (e1, e2) -> {
-            if (e1[0] == e2[0]) { // x좌표가 같다면
-                return e1[1] - e2[1]; // y좌표 오름차순
-            } else {
-                return e1[0] - e2[0]; // x좌표 오름차순
-            }
+        Arrays.sort(l, (l1, l2) -> {
+            if (l1.x == l2.x) return l1.y - l2.y;
+            return l1.x - l2.x;
         });
 
-        // 3. StringBuilder로 출력 모으기
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            sb.append(arr[i][0]).append(" ").append(arr[i][1]).append("\n");
-        }
-        
-        System.out.print(sb);
+        for (location i : l) sb.append(i.x + " ").append(i.y + "\n");
+
+        bw.write(sb.toString());
+
+        bw.flush();
+        bw.close();
+
+
     }
 }
