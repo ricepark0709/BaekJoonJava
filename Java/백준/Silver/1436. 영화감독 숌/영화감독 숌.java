@@ -2,42 +2,38 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    
-    public static boolean threesix(int a) {
-        String str = String.valueOf(a);
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    public static boolean threeSix(int n) {
+        String str = Integer.toString(n);
         int[] arr = new int[str.length()];
-        boolean b = false;
-        
+        int combo = 0;
+        boolean threeSix = false;
+
         for (int i = 0; i < str.length(); i++) {
-            arr[i] = a%10;
-            a /= 10;
-        }
-        for (int i = 0; i < str.length()-2; i++) {
-            if (arr[i] == 6 && arr[i+1] == 6 && arr[i+2] == 6) {
-                b = true;
-                break;
+            arr[i] = str.charAt(i);
+            if (arr[i] == '6') {
+                combo++;
+                if (combo == 3) threeSix = true;
+            } else {
+                combo = 0;
             }
         }
-        
-        return b;
+
+        if (threeSix) return true;
+        else return false;
     }
-    
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        boolean b = true;
-        
-        int s = 0; // n이랑 비교
-        int i = 0; // 숫자
-        while (b) {
-            i++;
-            if (threesix(i)) s++;
-            if (s == n) {
-                b = false;
-                break;
-            }
+
+        int result = 0;
+        int whatNum = 0;
+        while (whatNum!=n) {
+            result++;
+            if (threeSix(result)) whatNum++;
         }
-        
-        System.out.println(i);
+
+        System.out.println(result);
     }
 }
