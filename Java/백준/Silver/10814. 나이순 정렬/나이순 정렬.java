@@ -2,41 +2,37 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Member {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringTokenizer st;
+    static StringBuilder sb = new StringBuilder();
+
+    static class Person {
         int age;
         String name;
-        
-        Member(int age, String name) {
+        Person(int age, String name) {
             this.age = age;
             this.name = name;
         }
     }
-    
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        
-        Member[] arr = new Member[n];
+        Person[] p = new Person[n];
+
         for (int i = 0; i < n; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int age = Integer.parseInt(st.nextToken());
-            String name = st.nextToken();
-            
-            arr[i] = new Member(age, name);
+            st = new StringTokenizer(br.readLine());
+            p[i] = new Person(Integer.parseInt(st.nextToken()), st.nextToken());
         }
-        
-        Arrays.sort(arr, (a, b) -> {
-            return a.age - b.age;
-        });
-        
-        StringBuilder sb = new StringBuilder();
-        for (Member m : arr) {
-            sb.append(m.age).append(" ").append(m.name).append("\n");
+
+        Arrays.sort(p, (p1, p2) -> p1.age - p2.age);
+
+        for (Person person : p) {
+            sb.append(person.age + " " + person.name + "\n");
         }
-        
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         bw.write(sb.toString());
-        
+
         bw.flush();
         bw.close();
     }
