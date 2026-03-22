@@ -1,46 +1,61 @@
-import java.util.Stack;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringBuilder sb = new StringBuilder();
+    static boolean b = true;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         while (true) {
-            String line = br.readLine();
-            if (line.equals(".")) break; // 종료 조건
-
-            System.out.println(solve(line));
-        }
-    }
-
-    public static String solve(String line) {
-        Stack<Character> s = new Stack<>();
-
-        for (char c : line.toCharArray()) {
-            // 1. 열린 괄호는 일단 쌓기
-            if (c == '(' || c == '[') {
-                s.push(c);
-            } 
-            // 2. 닫힌 소괄호
-            else if (c == ')') {
-                if (s.isEmpty() || s.peek() != '(') {
-                    return "no";
+            String str = br.readLine();
+            Deque<Character> small = new ArrayDeque<>();
+            Deque<Character> big = new ArrayDeque<>();
+            Deque<Character> all = new ArrayDeque<>();
+            b = true;
+            if (str.equals(".")) break;
+            for (int i = 0; i < str.length()-1; i++) {
+                switch (str.charAt(i)) {
+                    case '(':
+                        small.add('(');
+                        all.add('(');
+                        break;
+                    case '[':
+                        big.add('[');
+                        all.add('[');
+                        break;
+                    case ')':
+                        if (!small.isEmpty() && all.getLast() == '(') {
+                            small.pop();
+                            all.pollLast();
+                        }
+                        else {
+                            b = false;
+                            break;
+                        }
+                        break;
+                    case ']':
+                        if (!big.isEmpty() && all.getLast() == '[') {
+                            big.pop();
+                            all.pollLast();
+                        }
+                        else {
+                            b = false;
+                            break;
+                        }
+                        break;
                 }
-                s.pop();
-            } 
-            // 3. 닫힌 대괄호
-            else if (c == ']') {
-                if (s.isEmpty() || s.peek() != '[') {
-                    return "no";
-                }
-                s.pop();
             }
+            if (small.isEmpty() && big.isEmpty() && b) b = true;
+            else b = false;
+
+            if (b) sb.append("yes\n");
+            else sb.append("no\n");
         }
 
-        // 4. 모든 검사가 끝난 후 스택이 비어있어야 진짜 완벽한 균형!
-        if (s.isEmpty()) return "yes";
-        else return "no";
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
     }
 }
