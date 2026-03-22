@@ -1,45 +1,46 @@
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-import java.util.Queue;
-import java.util.ArrayDeque;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static Deque<Integer> q = new ArrayDeque<>();
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        Queue<Integer> q = new ArrayDeque<>();
-        
-        int num = 0;
+
         for (int i = 0; i < n; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            String str = st.nextToken();
-            switch (str) {
+            st = new StringTokenizer(br.readLine());
+            switch (st.nextToken()) {
                 case "push":
-                    num = Integer.parseInt(st.nextToken());
-                    q.offer(num);
+                    q.add(Integer.parseInt(st.nextToken()));
                     break;
                 case "pop":
-                    if (q.isEmpty())System.out.println(-1);
-                    else System.out.println(q.poll());
+                    if (q.isEmpty()) sb.append(-1 + "\n");
+                    else sb.append(q.poll() + "\n");
                     break;
                 case "size":
-                    System.out.println(q.size());
+                    sb.append(q.size() + "\n");
                     break;
                 case "empty":
-                    if (q.isEmpty()) System.out.println(1);
-                    else System.out.println(0);
+                    if (q.isEmpty()) sb.append(1 + "\n");
+                    else sb.append(0 + "\n");
                     break;
                 case "front":
-                    if (q.isEmpty()) System.out.println(-1);
-                    else System.out.println(q.peek());
+                    if (q.isEmpty()) sb.append(-1 + "\n");
+                    else sb.append(q.peekFirst() + "\n");
                     break;
                 case "back":
-                    if (q.isEmpty()) System.out.println(-1);
-                    else System.out.println(num);
+                    if (q.isEmpty()) sb.append(-1 + "\n");
+                    else sb.append(q.peekLast() + "\n");
                     break;
             }
         }
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
     }
 }
