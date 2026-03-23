@@ -1,43 +1,45 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    
+    static Map<Integer, String> name = new HashMap<>();
+    static Map<String, Integer> id = new HashMap<>();
+    
     public static void main(String[] args) throws IOException {
-        // Scanner보다 빠른 BufferedReader 사용 권장
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N = Integer.parseInt(st.nextToken()); // 포켓몬 개수
-        int M = Integer.parseInt(st.nextToken()); // 문제 개수
-
-        // 두 가지 방식으로 저장 (번호 -> 이름, 이름 -> 번호)
-        String[] nameArray = new String[N + 1]; // 번호로 찾기용 (배열이 Map보다 빠름)
-        Map<String, Integer> nameToNum = new HashMap<>(); // 이름으로 찾기용
-
-        for (int i = 1; i <= N; i++) {
-            String name = br.readLine();
-            nameArray[i] = name;
-            nameToNum.put(name, i);
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        
+        setting(n);
+        bw.write(result(m));
+        bw.flush();
+        bw.close();
+    }
+    
+    public static void setting(int n) throws IOException {
+        for (int i = 0; i < n; i++) {
+            String str = br.readLine();
+            name.put(i+1, str);
+            id.put(str, i+1);
         }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < M; i++) {
-            String query = br.readLine();
-            
-            // 입력이 숫자인지 문자인지 판별
-            if (isNumeric(query)) {
-                int index = Integer.parseInt(query);
-                sb.append(nameArray[index]).append("\n");
+    }
+    
+    public static String result(int m) throws IOException {
+        for (int i = 0; i < m; i++) {
+            String str = br.readLine();
+            char c = str.charAt(0);
+            if (Character.isDigit(c)) {
+                sb.append(name.get(Integer.parseInt(str)) + "\n");
             } else {
-                sb.append(nameToNum.get(query)).append("\n");
+                sb.append(id.get(str) + "\n");
             }
         }
-        System.out.print(sb);
-    }
-
-    // 숫자인지 확인하는 간단한 메서드
-    public static boolean isNumeric(String str) {
-        char c = str.charAt(0);
-        return c >= '0' && c <= '9';
+        
+        return sb.toString();
     }
 }
