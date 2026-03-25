@@ -3,46 +3,57 @@ import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringBuilder sb = new StringBuilder();
-    static ArrayList<ArrayList<Integer>> adj;
     static StringTokenizer st;
-    static int count = 0;
+    static int[][] arr;
     static boolean[] visited;
-    
+    static int n, m;
+    static int count = 0;
+
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        visited = new boolean[n+1];
-        adj = new ArrayList<>();
-        
-        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());
-        
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        arr = new int[n + 1][n + 1];
+        visited = new boolean[n + 1];
+
+        process(m);
+        result();
+    }
+
+    public static void process(int m) throws IOException {
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            adj.get(a).add(b);
-            adj.get(b).add(a);
+            arr[a][b] = arr[b][a] = 1;
         }
-        
+    }
+
+    public static void bfs(int a) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(a);
+        visited[a] = true;
+
+        while (!q.isEmpty()) {
+            int num = q.poll();
+            for (int i = 1; i <= n; i++) {
+                if (arr[num][i] == 1 && !visited[i]) {
+                    q.add(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    }
+
+    public static void result() {
         for (int i = 1; i <= n; i++) {
             if (!visited[i]) {
-                dfs(i);
                 count++;
+                bfs(i);
             }
         }
-        
+
         System.out.println(count);
-    }
-    
-    public static void dfs(int n) {
-        visited[n] = true;
-        
-        for (int a : adj.get(n)) {
-            if (!visited[a]) {
-                dfs(a);
-            }
-        }
     }
 }
