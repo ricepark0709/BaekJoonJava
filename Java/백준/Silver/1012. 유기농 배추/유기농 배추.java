@@ -1,54 +1,78 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int M, N, K;
-    static int[][] map;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringTokenizer st;
+    static StringBuilder sb = new StringBuilder();
+
+    static int[][] farm;
     static boolean[][] visited;
-    static int[] dx = {0, 0, -1, 1}; // 상, 하, 좌, 우 이동을 위한 배열
-    static int[] dy = {-1, 1, 0, 0};
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt(); // 테스트 케이스 개수
+    static int t, n, m, k, x, y, count;
 
-        while (T-- > 0) {
-            M = sc.nextInt(); // 가로
-            N = sc.nextInt(); // 세로
-            K = sc.nextInt(); // 배추 개수
-            map = new int[M][N];
-            visited = new boolean[M][N];
-
-            for (int i = 0; i < K; i++) {
-                map[sc.nextInt()][sc.nextInt()] = 1;
-            }
-
-            int count = 0;
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < N; j++) {
-                    // 배추가 있고 아직 방문하지 않았다면 새로운 덩어리 발견!
-                    if (map[i][j] == 1 && !visited[i][j]) {
-                        dfs(i, j);
+    public static void main(String[] args) throws IOException {
+        t = Integer.parseInt(br.readLine());
+        for (int i = 0; i < t; i++) {
+            st = new StringTokenizer(br.readLine());
+            n = Integer.parseInt(st.nextToken());
+            m = Integer.parseInt(st.nextToken());
+            k = Integer.parseInt(st.nextToken());
+            count = 0;
+            setFarm();
+            setVisited();
+            for (int x = 0; x < n; x++) {
+                for (int y = 0; y < m; y++) {
+                    if (farm[x][y] == 1 && !visited[x][y]) {
+                        dfs(x, y);
                         count++;
                     }
                 }
             }
-            System.out.println(count);
+            sb.append(count).append('\n');
+        }
+        
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+    }
+
+    public static void setFarm() throws IOException {
+        farm = new int[n][m];
+        for (int i = 0; i < k; i++) {
+            st = new StringTokenizer(br.readLine());
+            x = Integer.parseInt(st.nextToken());
+            y = Integer.parseInt(st.nextToken());
+            farm[x][y] = 1;
         }
     }
 
-    static void dfs(int x, int y) {
-        visited[x][y] = true;
+    public static void setVisited() {
+        visited = new boolean[n][m];
+    }
 
-        // 상하좌우 4방향 확인
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+    public static void dfs(int a, int b) {
+        visited[a][b] = true;
 
-            // 밭 범위 안에 있고, 배추가 있으며, 아직 방문 안 했다면 이동
-            if (nx >= 0 && ny >= 0 && nx < M && ny < N) {
-                if (map[nx][ny] == 1 && !visited[nx][ny]) {
-                    dfs(nx, ny);
-                }
+        if (a != 0) {
+            if (farm[a - 1][b] == 1 && !visited[a - 1][b])  {
+                dfs(a - 1, b);
+            }
+        }
+        if (a != n - 1) {
+            if (farm[a + 1][b] == 1 && !visited[a + 1][b])  {
+                dfs(a + 1, b);
+            }
+        }
+        if (b != 0) {
+            if (farm[a][b - 1] == 1 && !visited[a][b - 1])  {
+                dfs(a, b - 1);
+            }
+        }
+        if (b != m - 1) {
+            if (farm[a][b + 1] == 1 && !visited[a][b + 1])  {
+                dfs(a, b + 1);
             }
         }
     }
