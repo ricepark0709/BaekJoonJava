@@ -1,46 +1,50 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+
+    static int n, m, max = 0, min = 1000000000, result;
+    static int[] tree;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N = Integer.parseInt(st.nextToken()); // 나무의 수
-        int M = Integer.parseInt(st.nextToken()); // 필요한 나무 길이
-
-        int[] trees = new int[N];
-        int max = 0;
-
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            trees[i] = Integer.parseInt(st.nextToken());
-            if (trees[i] > max) max = trees[i]; // 가장 높은 나무 찾기
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        setTree();
+        cutTree();
+
+        System.out.println(result);
+    }
+
+    public static void setTree() throws IOException {
+        st = new StringTokenizer(br.readLine());
+        tree = new int[n];
+        for (int i = 0; i < n; i++) {
+            tree[i] = Integer.parseInt(st.nextToken());
+            if (tree[i] > max) max = tree[i];
+            if (tree[i] < min) min = tree[i];
         }
+    }
 
-        // 이분 탐색 시작
-        long low = 0;
-        long high = max;
-        long result = 0;
-
+    public static void cutTree() {
+        int low = 0;
+        int high = max;
         while (low <= high) {
-            long mid = (low + high) / 2;
             long sum = 0;
-
-            for (int tree : trees) {
-                if (tree > mid) {
-                    sum += (tree - mid);
-                }
+            int mid = (low + high) / 2;
+            for (int i = 0; i < n; i++) {
+                if (tree[i] > mid) sum += (tree[i] - mid);
             }
 
-            if (sum >= M) { // 나무가 충분함 -> 높이를 더 높여보자
-                result = mid; 
+            if (sum >= m) {
+                result = mid;
                 low = mid + 1;
-            } else { // 나무가 부족함 -> 높이를 낮춰야 함
+            } else {
                 high = mid - 1;
             }
         }
-
-        System.out.println(result);
     }
 }
