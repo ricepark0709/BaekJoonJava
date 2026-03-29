@@ -8,8 +8,16 @@ public class Main {
 
     static int n;
 
-    static PriorityQueue<Long> plusQ = new PriorityQueue<>();
-    static PriorityQueue<Long> minusQ = new PriorityQueue<>(Collections.reverseOrder());
+    static PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+        int a = Math.abs(o1);
+        int b = Math.abs(o2);
+        
+        if (a == b) {
+            return o1 - o2;
+        }
+        
+        return a - b;
+    });
 
     public static void main(String[] args) throws IOException {
         n = Integer.parseInt(br.readLine());
@@ -22,27 +30,15 @@ public class Main {
 
     public static void fillQueue() throws IOException {
         for (int i = 0; i < n; i++) {
-            long num = Integer.parseInt(br.readLine());
-            if (num > 0) {
-                plusQ.add(num);
-            } else if (num < 0) {
-                minusQ.add(num);
-            } else {
-                if (plusQ.isEmpty() && !minusQ.isEmpty()) {
-                    sb.append(minusQ.poll()).append("\n");
-                } else if (!plusQ.isEmpty() && minusQ.isEmpty()) {
-                    sb.append(plusQ.poll()).append("\n");
-                } else if (plusQ.isEmpty() && minusQ.isEmpty()) {
+            int num = Integer.parseInt(br.readLine());
+            if (num == 0) {
+                if (pq.isEmpty()) {
                     sb.append(0).append("\n");
                 } else {
-                    long temp1 = Math.abs(plusQ.peek());
-                    long temp2 = Math.abs(minusQ.peek());
-                    if (temp1 >= temp2) {
-                        sb.append(minusQ.poll()).append("\n");
-                    } else {
-                        sb.append(plusQ.poll()).append("\n");
-                    }
+                    sb.append(pq.poll()).append("\n");
                 }
+            } else {
+                pq.add(num);
             }
         }
     }
