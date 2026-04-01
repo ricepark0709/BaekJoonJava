@@ -1,46 +1,49 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int N, K;
-    static int[] visited = new int[100001]; // 방문 여부와 시간을 동시에 저장
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+
+    static int[] arr = new int[100001];
+    static boolean[] visited = new boolean[100001];
+
+    static int n, k, num;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
-        N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
-
-        if (N == K) {
+        if (n == k) {
             System.out.println(0);
             return;
         }
 
-        bfs(N);
+        bfs(n);
     }
 
-    static void bfs(int start) {
+    public static void bfs(int start) {
         Queue<Integer> q = new LinkedList<>();
         q.add(start);
-        visited[start] = 1; // 시작 위치 방문 표시
+        arr[start] = 1;
+        visited[start] = true;
 
         while (!q.isEmpty()) {
-            int current = q.poll();
+            num = q.poll();
 
-            // 3가지 이동 경로 확인
-            int[] nextPositions = {current - 1, current + 1, current * 2};
+            int[] next = {num - 1, num + 1, num * 2};
 
-            for (int next : nextPositions) {
-                if (next == K) { // 동생을 찾았다면!
-                    System.out.println(visited[current]); // 현재까지 걸린 시간 출력
+            for (int i : next) {
+                if (i == k) {
+                    System.out.println(arr[num]);
                     return;
                 }
 
-                // 범위 내에 있고 아직 방문하지 않았다면
-                if (next >= 0 && next <= 100000 && visited[next] == 0) {
-                    q.add(next);
-                    visited[next] = visited[current] + 1;
+                if (i >= 0 && i <= 100000 && !visited[i]) {
+                    visited[i] = true;
+                    arr[i] = arr[num] + 1;
+                    q.add(i);
                 }
             }
         }
