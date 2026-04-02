@@ -7,8 +7,8 @@ public class Main {
     static StringTokenizer st;
     static StringBuilder sb = new StringBuilder();
 
-    static int map[][];
-    static boolean visited[][];
+    static int[][] map;
+    static boolean[][] visited;
     static int[] dx = {-1, 1, 0, 0};
     static int[] dy = {0, 0, -1, 1};
 
@@ -19,30 +19,27 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        setMap();
-
+        setArr();
         bfs(startX, startY);
         write();
     }
 
-    public static void setMap() throws IOException {
+    public static void setArr() throws IOException {
         map = new int[n][m];
         visited = new boolean[n][m];
-
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < m; j++) {
                 int num = Integer.parseInt(st.nextToken());
-                if (num == 0) {
-                    visited[i][j] = true;
-                }
                 if (num == 2) {
-                    map[i][j] = 0;
                     startX = i;
                     startY = j;
                 }
                 if (num == 1) {
                     map[i][j] = -1;
+                }
+                if (num == 0) {
+                    visited[i][j] = true;
                 }
             }
         }
@@ -54,15 +51,15 @@ public class Main {
         visited[x][y] = true;
 
         while (!q.isEmpty()) {
-            int num[] = q.poll();
+            int[] num = q.poll();
 
             for (int i = 0; i < 4; i++) {
                 int nx = num[0] + dx[i];
                 int ny = num[1] + dy[i];
 
                 if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
-                    map[nx][ny] = map[num[0]][num[1]] + 1;
                     visited[nx][ny] = true;
+                    map[nx][ny] = map[num[0]][num[1]] + 1;
                     q.add(new int[]{nx, ny});
                 }
             }
