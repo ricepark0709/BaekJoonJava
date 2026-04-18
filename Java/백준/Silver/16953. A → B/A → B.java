@@ -11,18 +11,18 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         a = Integer.parseInt(st.nextToken());
         b = Integer.parseInt(st.nextToken());
-
+        
         while (b > a) {
-            if (b % 2 == 0) {
-                b /= 2;
-            } else if (b % 10 == 1) {
+            if (b % 10 == 1) {
                 b /= 10;
+            } else if (b % 2 == 0) {
+                b /= 2;
             } else {
                 break;
             }
             count++;
         }
-
+        
         if (b == a) System.out.println(count);
         else System.out.println(-1);
     }
