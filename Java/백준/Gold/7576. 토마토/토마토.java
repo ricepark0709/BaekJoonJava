@@ -5,35 +5,37 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
 
-    static int n, m, max = 0;
+    static int m, n, max;
     static int[][] arr;
-    static Queue<int[]> q;
-
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
+    static boolean[][] visited;
+    static Queue<int[]> q = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
 
         setArr();
         bfs();
-        check();
+        findMax();
 
-        System.out.println(max - 1);
-
+        System.out.println(max);
     }
 
     public static void setArr() throws IOException {
-        arr = new int[m][n];
-        q =  new LinkedList<>();
-        for (int i = 0; i < m; i++) {
+        arr = new int[n][m];
+        visited = new boolean[n][m];
+
+        for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < m; j++) {
                 arr[i][j] = Integer.parseInt(st.nextToken());
                 if (arr[i][j] == 1) {
+                    visited[i][j] = true;
                     q.add(new int[]{i, j});
+                }
+                if (arr[i][j] == -1) {
+                    visited[i][j] = true;
                 }
             }
         }
@@ -41,31 +43,37 @@ public class Main {
 
     public static void bfs() {
         while (!q.isEmpty()) {
-            int[] curr = q.poll();
+            int[] cur = q.poll();
 
             for (int i = 0; i < 4; i++) {
-                int nx = dx[i] + curr[0];
-                int ny = dy[i] + curr[1];
+                int[] dx = {-1, 1, 0, 0};
+                int[] dy = {0, 0, 1, -1};
 
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
-                    if (arr[nx][ny] == 0) {
-                        arr[nx][ny] = arr[curr[0]][curr[1]] + 1;
-                        q.add(new int[]{nx, ny});
-                    }
+                int nx = dx[i] + cur[0];
+                int ny = dy[i] + cur[1];
+
+                if (nx >= 0 && ny >= 0 && nx < n && ny < m && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    q.add(new int[]{nx, ny});
+                    arr[nx][ny] = arr[cur[0]][cur[1]] + 1;
                 }
             }
         }
     }
 
-    public static void check() {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+    public static void findMax() {
+        max = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (arr[i][j] > max) {
+                    max = arr[i][j];
+                }
                 if (arr[i][j] == 0) {
-                    max = 0;
+                    max = -1;
                     return;
                 }
-                max = Math.max(max, arr[i][j]);
             }
         }
+        max--;
     }
 }
