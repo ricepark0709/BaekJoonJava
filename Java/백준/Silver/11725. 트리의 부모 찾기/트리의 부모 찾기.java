@@ -9,27 +9,14 @@ public class Main {
 
     static int n;
     static ArrayList<Integer>[] adj;
+    static int[] parent;
     static boolean[] visited;
-    static int[] result;
 
     public static void main(String[] args) throws IOException {
         n = Integer.parseInt(br.readLine());
-        setAdj();
-        bfs();
-
-        for (int i = 2; i <= n; i++) {
-            sb.append(result[i]).append('\n');
-        }
-
-        bw.write(sb.toString());
-        bw.flush();
-        bw.close();
-    }
-
-    public static void setAdj() throws IOException {
         adj = new ArrayList[n + 1];
+        parent = new int[n + 1];
         visited = new boolean[n + 1];
-        result = new int[n + 1];
 
         for (int i = 1; i <= n; i++) {
             adj[i] = new ArrayList<>();
@@ -42,21 +29,30 @@ public class Main {
             adj[a].add(b);
             adj[b].add(a);
         }
+
+        bfs(1);
+
+        for (int i = 2; i <= n; i++) {
+            sb.append(parent[i]).append('\n');
+        }
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
     }
 
-    public static void bfs() {
+    public static void bfs(int start) {
         Queue<Integer> q = new LinkedList<>();
-        q.add(1);
-        visited[1] = true;
+        visited[start] = true;
+        q.add(start);
 
         while (!q.isEmpty()) {
             int cur = q.poll();
 
-            for (int val : adj[cur]) {
-                if (!visited[val]) {
-                    q.add(val);
-                    visited[val] = true;
-                    result[val] = cur;
+            for (int num : adj[cur]) {
+                if (!visited[num]) {
+                    parent[num] = cur;
+                    visited[num] = true;
+                    q.add(num);
                 }
             }
         }
