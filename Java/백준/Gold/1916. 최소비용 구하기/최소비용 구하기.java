@@ -3,7 +3,7 @@ import java.util.*;
 
 class Node implements Comparable<Node> {
     int end, weight;
-    public Node (int end, int weight) {
+    Node (int end, int weight) {
         this.end = end;
         this.weight = weight;
     }
@@ -17,22 +17,22 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
 
-    static int n, m;
-    static ArrayList<Node>[] adj;
+    static List<Node>[] adj;
     static int[] dist;
+    static int N, M;
 
     public static void main(String[] args) throws IOException {
-        n = Integer.parseInt(br.readLine());
-        m = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        M = Integer.parseInt(br.readLine());
 
-        adj = new ArrayList[n + 1];
-        for (int i = 1; i <= n; i++) {
+        adj = new ArrayList[N + 1];
+        for (int i = 1; i <= N; i++) {
             adj[i] = new ArrayList<>();
         }
-        dist = new int[n + 1];
+        dist = new int[N + 1];
         Arrays.fill(dist, Integer.MAX_VALUE);
 
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int s = Integer.parseInt(st.nextToken());
             int e = Integer.parseInt(st.nextToken());
@@ -41,29 +41,31 @@ public class Main {
         }
 
         st = new StringTokenizer(br.readLine());
-        int startNode = Integer.parseInt(st.nextToken());
-        int endNode = Integer.parseInt(st.nextToken());
+        int start = Integer.parseInt(st.nextToken());
+        int end = Integer.parseInt(st.nextToken());
+        dijkstra(start);
 
-        System.out.println(dijkstra(startNode, endNode));
+        System.out.println(dist[end]);
     }
 
-    public static int dijkstra(int start, int end) {
+    public static void dijkstra(int start) {
         PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.add(new Node(start, 0));
         dist[start] = 0;
 
         while (!pq.isEmpty()) {
-            Node curr = pq.poll();
+            Node cur = pq.poll();
+            int curEnd = cur.end;
+            int curWeight = cur.weight;
 
-            if (curr.weight > dist[curr.end]) continue;
+            if (dist[curEnd] < curWeight) continue;
 
-            for (Node next : adj[curr.end]) {
-                if (dist[next.end] > dist[curr.end] + next.weight) {
-                    dist[next.end] = dist[curr.end] + next.weight;
+            for (Node next : adj[curEnd]) {
+                if (dist[next.end] > dist[curEnd] + next.weight) {
+                    dist[next.end] = dist[curEnd] + next.weight;
                     pq.add(new Node(next.end, dist[next.end]));
                 }
             }
         }
-        return dist[end];
     }
 }
